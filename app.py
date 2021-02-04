@@ -218,12 +218,14 @@ while True:
                 l_on = False
                 norm = True
             
+            c = 1;
 
             # check device is on or off
             if switch == True:
-                if t != 'q':
+                if t != 'q' and c == 1:
                         write_to_arduino('q')
                         t = 'q'
+                        c = c + 1
                 print("Device is on")
                 # print out movements
                 if f_on == True and b_on == False and norm == True:
@@ -254,12 +256,10 @@ while True:
                 if t != 'w':
                         write_to_arduino('w')
                         t = 'w'
+                        c = 1
                 print("Device is off")
 
     else:
-        if t != 'o':
-            write_to_arduino('o')
-            t = 'o'
         cv.putText(frame, "No faces detected", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), thickness=2)
 
     cv.imshow('Video', frame) # show each frame in the loop
