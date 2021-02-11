@@ -1,19 +1,9 @@
 # import used libraries 
-import serial
 import cv2 as cv
 import numpy as np
 import dlib
-import time
 import math
 
-# trigger
-t = ''
-
-# write result to arduino by serial communication
-arduino = serial.Serial("/dev/ttyACM0", 115200, timeout=0.1)
-def write_to_arduino(x):
-    arduino.write(bytes(x, 'utf-8'))
-    time.sleep(0.05)
 
 cam = cv.VideoCapture(0) # to use webcam 
 
@@ -97,26 +87,14 @@ while True:
             # print out roll direction
             if roll >= 18:
                 #print("Right")
-                if t != 'r':
-                    write_to_arduino('r')
-                    t = 'r'
                 cv.putText(frame, "Right", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 4, (255, 0, 0), thickness=3)
             elif roll <= -18:
                 #print("Left")
-                if t != 'l':
-                    write_to_arduino('l')
-                    t = 'l'
                 cv.putText(frame, "Left", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 4, (255, 0, 0), thickness=3)
             else:
-                if t != 'n':
-                    write_to_arduino('n')
-                    t = 'n'
                 print("Normal")
                 
     else:
-        if t != 'o':
-            write_to_arduino('o')
-            t = 'o'
         cv.putText(frame, "No faces detected", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), thickness=2)
 
     # display frames
