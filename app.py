@@ -1,19 +1,17 @@
 # import used libraries 
-import serial
 import cv2 as cv
 import numpy as np
 import dlib
 import time
 import math
+from pyfirmata import Arduino, util
 
 # trigger
 t = ''
+c = 1
 
-# write result to arduino by serial communication
-arduino = serial.Serial("/dev/ttyACM0", 115200, timeout=0.1)
-def write_to_arduino(x):
-    arduino.write(bytes(x, 'utf-8'))
-    time.sleep(0.05)
+# setting the arduino to write result to it by serial communication
+board = Arduino('/dev/ttyACM0')
 
 # function to caculate midpoint
 def midpoint(p1, p2):
@@ -217,44 +215,61 @@ while True:
                 r_on =False
                 l_on = False
                 norm = True
-            
-            c = 1;
 
             # check device is on or off
             if switch == True:
                 if t != 'q' and c == 1:
-                        write_to_arduino('q')
+                        board.digital[6].write(1)
+                        time.sleep(0.6)
+                        board.digital[6].write(0)
                         t = 'q'
                         c = c + 1
-                print("Device is on")
+                print("Device is on", c)
                 # print out movements
                 if f_on == True and b_on == False and norm == True:
                     if t != 'f':
-                        write_to_arduino('f')
+                        board.digital[9].write(1)
+                        board.digital[8].write(0)
+                        board.digital[10].write(0)
+                        board.digital[12].write(0)
                         t = 'f'
                     cv.putText(frame, "Forward", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 4, (255, 0, 0), thickness=3)
                 elif b_on == True and f_on == False and norm == True:
                     if t != 'b':
-                        write_to_arduino('b')
+                        board.digital[9].write(0)
+                        board.digital[8].write(1)
+                        board.digital[10].write(0)
+                        board.digital[12].write(0)
                         t = 'b'
                     cv.putText(frame, "Backward", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 4, (255, 0, 0), thickness=3)
                 elif r_on == True and l_on == False and norm == False:
                     if t != 'r':
-                        write_to_arduino('r')
+                        board.digital[9].write(0)
+                        board.digital[8].write(0)
+                        board.digital[10].write(1)
+                        board.digital[12].write(0)
                         t = 'r'
                     cv.putText(frame, "Right", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 4, (255, 0, 0), thickness=3)
                 elif r_on == False and l_on == True and norm == False:
                     if t != 'l':
-                        write_to_arduino('l')
+                        board.digital[9].write(0)
+                        board.digital[8].write(0)
+                        board.digital[10].write(0)
+                        board.digital[12].write(1)
                         t = 'l'
                     cv.putText(frame, "Left", (50, 150), cv.FONT_HERSHEY_SIMPLEX, 4, (255, 0, 0), thickness=3)
                 else:
                     if t != 'n':
-                        write_to_arduino('n')
+                        board.digital[9].write(0)
+                        board.digital[8].write(0)
+                        board.digital[10].write(0)
+                        board.digital[12].write(0)
                         t = 'n'
             else:
                 if t != 'w':
-                        write_to_arduino('w')
+                        board.digital[6].write(1)
+                        time.sleep(0.6)
+                        board.digital[6].write(0)
                         t = 'w'
                         c = 1
                 print("Device is off")
