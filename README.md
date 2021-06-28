@@ -8,6 +8,4 @@ Detectes facial gistures:
 
 and then excutes the moves.
 
-The analyzation of the video is done by diving it into frames then apply Dlib facial landmarks classifier to recongize the different landmarks. Then, the landmarks is furthur manipulated to taget specific areas of the face with specific gestures. pyFirmata is used to send the results of the app python code to the arduino so it can react quickly to the facial gestures. This compination allows disabled to move fast and efficient with no much effort.
-
-# What I learned ?
+The real-time analysis of the video is done by diving it into frames then apply Dlib facial landmarks classifier to recognize the different landmarks. Then, the landmarks are further manipulated to target specific areas of the face with definite gestures. pyFirmata is used to send the results of the app python code to the Arduino so it can react quickly to the facial gestures. This combination allows the disabled to move fast and efficiently with no much effort.
