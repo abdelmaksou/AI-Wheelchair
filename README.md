@@ -1,4 +1,3 @@
-# AI-Wheelchair
 # Facial gestures controlled wheelchair Using facial landmarks recognition and Arduino
 Detectes facial gistures:
 1) Open and close both eyes for on and off switch
